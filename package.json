@@ -1,0 +1,22 @@
+{
+  "name": "food_dist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Algoritm211/Food-delivery-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Algoritm211/Food-delivery-js/issues"
+  },
+  "homepage": "https://github.com/Algoritm211/Food-delivery-js#readme",
+  "dependencies": {
+    "json-server": "^0.16.2"
+  }
+}

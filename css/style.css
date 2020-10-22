@@ -606,6 +606,11 @@ a {
   margin: 0 auto;
 }
 
+.modal-window-spinner {
+  display: block;
+  margin: 0 auto;
+}
+
 
 .show {
   display: block;

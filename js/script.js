@@ -193,17 +193,65 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Fetch example
+    // const getResources = async (url) => {
+    //     const res = await fetch(url)
 
-    new MenuCard(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        10,
-        '.menu .container',
-        // 'menu__item'
-    ).render()
+    //     if (!res.ok) {
+    //         throw new Error(`Произошла ошибка, данные по адресу ${url} не были 
+    //                             загружены статус ошибки: ${res.status}`)
+    //     }
 
+    //     return await res.json()
+    // }
+
+    // Axios example
+
+    axios.get('http://localhost:3000/menu')
+        .then(menuData => {
+            createCard(menuData.data)
+        })
+
+    // getResources('http://localhost:3000/menu')
+    //     .then((dataMenu) => {
+    //         dataMenu.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(
+    //                 img, 
+    //                 altimg, 
+    //                 title, 
+    //                 descr, 
+    //                 price,
+    //                 '.menu .container'
+    //             ).render()
+    //         })
+    //     })
+
+
+    // getResources('http://localhost:3000/menu')
+    //     .then(menuData => {
+    //         createCard(menuData)
+    //     })
+
+    function createCard(data) {
+        data.forEach(({img, altimg, title, descr, price}) => {
+            const element = document.createElement('div')
+            element.classList.add('menu__item')
+
+            price = price * 27
+
+            element.innerHTML = `
+            <img src=${img} alt=${altimg}>
+            <h3 class="menu__item-subtitle">${title}</h3>
+            <div class="menu__item-descr">${descr}</div>
+            <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                <div class="menu__item-cost">Цена:</div>
+            <div class="menu__item-total"><span>${price}</span> грн/день</div>
+        
+            `
+            document.querySelector('.menu .container').append(element)
+        })
+    }
 
     // Forms
 
@@ -216,7 +264,20 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        })
+        return await res.json()
+
+    } 
+
+
+    function bindPostData(form) {
         form.addEventListener('submit', (event) => {
             event.preventDefault()
 
@@ -228,20 +289,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // При пост-запросе НЕ ДЛЯ JSON не указывать хедеры
             const formData = new FormData(form)
-            const obj = {}
-            // логика для JSON
-            formData.forEach(function (value, key) {
-                obj[key] = value
-            })
+            // const obj = {}
+            // // логика для JSON
+            // formData.forEach(function (value, key) {
+            //     obj[key] = value
+            // })
+
+          
             
-            fetch('server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            })
-            .then(data => data.text())
+            json = JSON.stringify(Object.fromEntries(formData.entries()))
+
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThanksModal(message.success)                 
@@ -258,7 +316,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     forms.forEach((item) => {
-        postData(item)
+        bindPostData(item)
     })
 
     function showThanksModal(message) {
@@ -287,9 +345,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 4000)
     }
 
-    fetch('http://localhost:3000/menu')
-        .then(data => data.json())
-        .then(result => console.log(result))
+    // fetch('http://localhost:3000/menu')
+    //     .then(data => data.json())
+    //     .then(result => console.log(result))
 })
 
 

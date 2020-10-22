@@ -348,6 +348,64 @@ window.addEventListener('DOMContentLoaded', () => {
     // fetch('http://localhost:3000/menu')
     //     .then(data => data.json())
     //     .then(result => console.log(result))
+
+
+    // Slider
+
+    const sliderPhotos = document.querySelectorAll('.offer__slide')
+    const nextButton = document.querySelector('.offer__slider-next')
+    const prevButton = document.querySelector('.offer__slider-prev')
+    const totalPhotosNumber = document.querySelector('#total')
+    const currentPhotoNumber = document.querySelector('#current')
+
+    totalPhotosNumber.innerHTML = getZero(sliderPhotos.length)
+    
+    sliderPhotosHide()
+    sliderPhotoShow()
+
+    function sliderPhotosHide() {
+        sliderPhotos.forEach((photo) => {
+            photo.classList.remove('show')
+            photo.classList.add('hide')
+        })
+    }
+
+    function sliderPhotoShow(itemIndex = 0) {
+        // console.log(itemIndex);
+        sliderPhotos[itemIndex].classList.add('show')
+        sliderPhotos[itemIndex].classList.remove('hide')
+
+        currentPhotoNumber.innerHTML = getZero(itemIndex + 1)
+    }
+
+    function switchSlider(nextNumber) {
+        const newTarget = +currentPhotoNumber.innerHTML - 1 + nextNumber
+
+        if (newTarget >= +totalPhotosNumber.innerHTML) {
+            sliderPhotosHide()
+            sliderPhotoShow()
+        } else if (newTarget < 0) {
+            sliderPhotosHide()
+            sliderPhotoShow(sliderPhotos.length - 1)
+        } else {
+            // console.log(newTarget);
+            sliderPhotosHide()
+            sliderPhotoShow(newTarget)
+        }
+    }
+
+    nextButton.addEventListener('click', () => {
+        console.log('sd');
+        switchSlider(1)
+    })
+
+    prevButton.addEventListener('click', () => {
+        switchSlider(-1)
+    })
+
+    
 })
+
+
 
 

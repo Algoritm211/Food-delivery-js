@@ -465,8 +465,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // end of service funcs
 
-
-
     nextButton.addEventListener('click', () => {
         if (offset === deleteNoDigits(width) * (sliderPhotos.length - 1)) {
             offset = 0
@@ -513,11 +511,11 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 
     dots.forEach((dot) => {
-
         dot.addEventListener('click', () => {
             const numberOfSliderAttr = +dot.getAttribute('data-slide-to')
             slideIndex = numberOfSliderAttr
             offset = deleteNoDigits(width) * (slideIndex - 1)
+            // console.log(numberOfSliderAttr, slideIndex, width, offset);
 
             slidesField.style.transform = `translateX(-${offset}px)`
             currentPhotoNumber.innerHTML = getZero(slideIndex)
@@ -526,4 +524,80 @@ window.addEventListener('DOMContentLoaded', () => {
 
         })
     })
+
+    // Calculator
+
+    const result = document.querySelector('.calculating__result span')
+    let sex = 'female'
+    let height
+    let weight
+    let age
+    let ratio = '1.375' // коэфициент активности
+
+    function calcTotalCalories() {
+        if (!sex || !height || !weight || !age || !ratio) {
+            result.textContent = '______'
+            return
+        }
+
+        if (sex === 'female') {
+            result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio)
+        } else {
+            result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio)
+        }
+
+    }
+
+    calcTotalCalories()
+
+    function getStaticInformation(parentSelector, activeClass) {
+        const elements = document.querySelectorAll(`${parentSelector} div`)
+
+        elements.forEach(element => {
+            element.addEventListener('click', (event) => {
+                if (event.target && event.target.getAttribute('data-ratio')) {
+                    ratio = +event.target.getAttribute('data-ratio')
+    
+                } else {
+                    sex = event.target.getAttribute('id')
+                }
+    
+                elements.forEach(element => {
+                    element.classList.remove(activeClass)
+                })
+    
+                event.target.classList.add(activeClass)
+                calcTotalCalories()
+            })
+        })
+    }
+
+    getStaticInformation('#gender', 'calculating__choose-item_active')
+    getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active')
+
+    function getDynamicInformation(selector) {
+        const input = document.querySelector(selector)
+
+        input.addEventListener('input', () => {
+            switch (input.getAttribute('id')) {
+                case 'height':
+                    height = +input.value
+                    break;
+                case 'weight':
+                    weight = +input.value
+                    break
+                case 'age':
+                    age = +input.value
+                    break
+                default:
+                    break;
+            }
+            calcTotalCalories()
+        })
+    }
+
+    getDynamicInformation('#height')
+    getDynamicInformation('#weight')
+    getDynamicInformation('#age')
+
 })

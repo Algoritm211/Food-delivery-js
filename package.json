@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Algoritm211/Food-delivery-js#readme",
   "dependencies": {
-    "json-server": "^0.16.2"
+    "json-server": "^0.16.2",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0"
   }
 }

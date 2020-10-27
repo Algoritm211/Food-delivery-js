@@ -17,8 +17,21 @@
   },
   "homepage": "https://github.com/Algoritm211/Food-delivery-js#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "es6-promise": "^4.2.8",
     "json-server": "^0.16.2",
+    "nodelist-foreach-polyfill": "^1.2.0",
     "webpack": "^5.2.0",
     "webpack-cli": "^4.1.0"
-  }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-loader": "^8.1.0",
+    "core-js": "^3.6.5"
+  },
+  "browserslist": [
+    "> 1%"
+  ]
 }

@@ -5,6 +5,9 @@ import cards from './modules/cards'
 import calc from './modules/calc'
 import forms from './modules/forms'
 import slider  from './modules/slider'
+import 'nodelist-foreach-polyfill'
+
+require('es6-promise').polyfill();
 
 window.addEventListener('DOMContentLoaded', () => {
 
